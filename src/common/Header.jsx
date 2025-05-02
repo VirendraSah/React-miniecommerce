@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 function Header() {
     return (
         <header className='bg-[#111827] py-5'>
-            <div className='max-w-[1320px] m-auto px-3 flex justify-between items-center'>
+            <div className='max-w-full m-auto px-3 flex justify-between items-center'>
                 <Link to={'/'} className='flex gap-4'>
                     <img src="../logo.svg" alt="logo" />
                     <h3 className='text-white font-bold text-2xl'>KadriBazar</h3>
