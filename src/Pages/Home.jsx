@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-import { Header } from './common/Header'
+import { Header } from '../common/Header';
 import { FaArrowRightLong } from "react-icons/fa6";
 import { IoIosHeart } from "react-icons/io";
-import { ProductData } from './Data/ProductData';
 import axios from 'axios';
-import { Allproducts } from './common/Allproducts';
+import { Allproducts } from '../common/Allproducts';
 function Home() {
     
     return (

@@ -1,19 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { IoIosHeart } from 'react-icons/io';
 import axios from 'axios'
+import { Bluebutton } from './Buttons';
+import { pageContext } from '../MainContext';
 
 function Allproducts() {
-    let [product, setproduct]=useState([])
+    let { page, sorting, filter, brandfil, amountfilter, discount, rating, refreshKey } = useContext(pageContext)
+    const amount = String(amountfilter).split(',').map(Number);
+    let [product, setproduct] = useState([])
     let getProducts = () => {
-        axios.get('https://wscubetech.co/ecommerce-api/products.php')
+        axios.get('https://wscubetech.co/ecommerce-api/products.php', {
+            params: {
+                page,
+                limit: 15,
+                categories: filter.join(','),
+                brands: brandfil.join(','),
+                price_from: amount[0],
+                price_to: amount[1],
+                discount_from: discount,
+                discount_to: null,
+                rating,
+                sorting
+            }
+        })
             .then((apiData) => apiData.data)
             .then((finalRes) => {
                 setproduct(finalRes.data)
             })
     }
-    useState(() => {
+
+    useEffect(() => {
         getProducts()
-    }, [])
+    }, [sorting, page, filter, brandfil, amountfilter, discount, rating, refreshKey ])
 
     return (
         <>
@@ -26,7 +44,7 @@ function Allproducts() {
         </>
     )
 }
-export {Allproducts}
+
 function ProductItem({ data: { image, name, price, category_name } }) {
     return (
         <div className='p-2 border border-amber-300'>
@@ -43,9 +61,10 @@ function ProductItem({ data: { image, name, price, category_name } }) {
                     <span className='text-[12px]'>{category_name}</span>
                 </div>
                 <div>
-                    <button className='text-[#fff] text-[14px] bg-[#2563eb] py-1 px-4 rounded-sm cursor-pointer'>ADD</button>
+                    <Bluebutton ButtonName={'ADD'} />
                 </div>
             </div>
         </div>
     )
 }
+export { Allproducts }
